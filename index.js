@@ -2,8 +2,14 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
-
+const cors = require('cors');
 const app = express();
+require('dotenv').config();
+
+console.log('NODE_ENV_TEST:', process.env.NODE_ENV_TEST); // prod / test
+console.log('PORT:', process.env.PORT);
+
+app.use(cors());
 app.use(bodyParser.json());
 
 /**
@@ -160,7 +166,7 @@ app.post('/analyze', (req, res) => {
     });
 });
 
-if (process.env.NODE_ENV_TEST == false) {
+if (process.env.NODE_ENV_TEST == "prod") {
     const PORT = process.env.PORT || 3000;
     app.listen(PORT, () => {
         console.log(`Servidor Express => http://localhost:${PORT}`);
